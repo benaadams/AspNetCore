@@ -23,12 +23,7 @@ namespace PlatformBenchmarks
 
         public Memory<byte> GetMemory(int sizeHint = 0)
         {
-            if (sizeHint == 0)
-            {
-                sizeHint = 1;
-            }
-
-            if (_memory.Length < sizeHint)
+            if (_memory.Length == 0 || (uint)_memory.Length < (uint)sizeHint)
             {
                 if (_buffered > 0)
                 {
@@ -44,12 +39,7 @@ namespace PlatformBenchmarks
 
         public Span<byte> GetSpan(int sizeHint = 0)
         {
-            if (sizeHint == 0)
-            {
-                sizeHint = 1;
-            }
-
-            if (_memory.Length >= sizeHint)
+            if (_memory.Length == 0 || (uint)_memory.Length >= (uint)sizeHint)
             {
                 return _memory.Span;
             }
