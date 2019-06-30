@@ -29,12 +29,11 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                 "Microsoft.AspNetCore.Mvc.BeforeViewComponent",
-                new
-                {
-                    actionDescriptor = context.ViewContext.ActionDescriptor,
-                    viewComponentContext = context,
-                    viewComponent = viewComponent
-                });
+                (
+                    actionDescriptor: context.ViewContext.ActionDescriptor,
+                    viewComponentContext: context,
+                    viewComponent
+                ));
             }
         }
 
@@ -57,13 +56,12 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                 "Microsoft.AspNetCore.Mvc.AfterViewComponent",
-                new
-                {
-                    actionDescriptor = context.ViewContext.ActionDescriptor,
-                    viewComponentContext = context,
-                    viewComponentResult = result,
-                    viewComponent = viewComponent
-                });
+                (
+                    actionDescriptor: context.ViewContext.ActionDescriptor,
+                    viewComponentContext: context,
+                    viewComponentResult: result,
+                    viewComponent
+                ));
             }
         }
 
@@ -85,12 +83,11 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                     "Microsoft.AspNetCore.Mvc.ViewComponentBeforeViewExecute",
-                    new
-                    {
-                        actionDescriptor = context.ViewContext.ActionDescriptor,
-                        viewComponentContext = context,
-                        view = view
-                    });
+                    (
+                        actionDescriptor: context.ViewContext.ActionDescriptor,
+                        viewComponentContext: context,
+                        view
+                    ));
             }
         }
 
@@ -112,12 +109,11 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                     "Microsoft.AspNetCore.Mvc.ViewComponentAfterViewExecute",
-                    new
-                    {
-                        actionDescriptor = context.ViewContext.ActionDescriptor,
-                        viewComponentContext = context,
-                        view = view
-                    });
+                    (
+                        actionDescriptor: context.ViewContext.ActionDescriptor,
+                        viewComponentContext: context,
+                        view
+                    ));
             }
         }
 
@@ -139,7 +135,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                     "Microsoft.AspNetCore.Mvc.BeforeView",
-                    new { view = view, viewContext = viewContext, });
+                    ( view, viewContext ));
             }
         }
 
@@ -161,7 +157,7 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                     "Microsoft.AspNetCore.Mvc.AfterView",
-                    new { view = view, viewContext = viewContext, });
+                    ( view, viewContext ));
             }
         }
 
@@ -186,14 +182,13 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                     "Microsoft.AspNetCore.Mvc.ViewFound",
-                    new
-                    {
-                        actionContext = actionContext,
-                        isMainPage = isMainPage,
-                        result = viewResult,
-                        viewName = viewName,
-                        view = view,
-                    });
+                    (
+                        actionContext,
+                        isMainPage,
+                        result: viewResult,
+                        viewName, 
+                        view
+                    ));
             }
         }
 
@@ -218,14 +213,13 @@ namespace Microsoft.AspNetCore.Mvc.ViewFeatures
             {
                 diagnosticListener.Write(
                     "Microsoft.AspNetCore.Mvc.ViewNotFound",
-                    new
-                    {
-                        actionContext = actionContext,
-                        isMainPage = isMainPage,
-                        result = viewResult,
-                        viewName = viewName,
-                        searchedLocations = searchedLocations,
-                    });
+                    (
+                        actionContext,
+                        isMainPage,
+                        result: viewResult,
+                        viewName,
+                        searchedLocations
+                    ));
             }
         }
     }
