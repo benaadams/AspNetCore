@@ -150,6 +150,52 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal
             }
         }
 
+        /// <inheritdoc />
+        public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
+        {
+            if (destination == null)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
+            if (bufferSize <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(bufferSize));
+            }
+
+            return CopyToAsyncInternal(destination, cancellationToken);
+        }
+
+        private async Task CopyToAsyncInternal(Stream destination, CancellationToken cancellationToken)
+        {
+            while (true)
+            {
+                var result = await _input.ReadAsync(cancellationToken);
+                var readableBuffer = result.Buffer;
+                var readableBufferLength = readableBuffer.Length;
+
+                try
+                {
+                    if (readableBufferLength != 0)
+                    {
+                        foreach (var memory in readableBuffer)
+                        {
+                            await destination.WriteAsync(memory, cancellationToken);
+                        }
+                    }
+
+                    if (result.IsCompleted)
+                    {
+                        return;
+                    }
+                }
+                finally
+                {
+                    _input.AdvanceTo(readableBuffer.End);
+                }
+            }
+        }
+
         public override IAsyncResult BeginRead(byte[] buffer, int offset, int count, AsyncCallback callback, object state)
         {
             var task = ReadAsync(buffer, offset, count, default(CancellationToken), state);
