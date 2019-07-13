@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.Hosting
             var httpContext = _httpContextFactory.Create(contextFeatures);
 
             Context hostContext;
-            if (contextFeatures is IHostContextContainer<ContextWrapper> container)
+            if (contextFeatures is IContextContainer<ContextWrapper> container)
             {
                 hostContext = container.HostContext.Context;
                 if (hostContext is null)

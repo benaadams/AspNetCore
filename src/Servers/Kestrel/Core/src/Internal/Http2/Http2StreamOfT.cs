@@ -4,14 +4,15 @@
 
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Abstractions;
+using Microsoft.AspNetCore.Http;
 
 namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 {
-    internal sealed class Http2Stream<TContext> : Http2Stream, IHostContextContainer<TContext>
+    internal sealed class Http2Stream<THostContext> : Http2Stream, IContextContainer<THostContext>
     {
-        private readonly IHttpApplication<TContext> _application;
+        private readonly IHttpApplication<THostContext> _application;
 
-        public Http2Stream(IHttpApplication<TContext> application, Http2StreamContext context) : base(context)
+        public Http2Stream(IHttpApplication<THostContext> application, Http2StreamContext context) : base(context)
         {
             _application = application;
         }
@@ -23,6 +24,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
         }
 
         // Pooled Host context
-        TContext IHostContextContainer<TContext>.HostContext { get; set; }
+        THostContext IContextContainer<THostContext>.HostContext { get; set; }
+        DefaultHttpContext IDefaultHttpContextContainer.HttpContext { get; set; }
     }
 }
