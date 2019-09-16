@@ -32,6 +32,9 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private static readonly byte[] _bytesTransferEncodingChunked = Encoding.ASCII.GetBytes("\r\nTransfer-Encoding: chunked");
         private static readonly byte[] _bytesServer = Encoding.ASCII.GetBytes("\r\nServer: " + Constants.ServerName);
 
+        private static readonly ContextCallback OnStartingCallback = new ContextCallback(FireOnStarting);
+        private static readonly ContextCallback OnCompletedCallback = new ContextCallback(FireOnCompleted);
+
         protected BodyControl _bodyControl;
         private Stack<KeyValuePair<Func<object, Task>, object>> _onStarting;
         private Stack<KeyValuePair<Func<object, Task>, object>> _onCompleted;
@@ -102,6 +105,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         public long? MaxRequestBodySize { get; set; }
         public MinDataRate MinRequestBodyDataRate { get; set; }
         public bool AllowSynchronousIO { get; set; }
+
+        private Task _eventCallbackTask;
 
         /// <summary>
         /// The request id. <seealso cref="HttpContext.TraceIdentifier"/>
@@ -623,7 +628,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                     // https://github.com/aspnet/KestrelHttpServer/issues/43
                     if (!HasResponseStarted && _applicationException == null && _onStarting?.Count > 0)
                     {
-                        await FireOnStarting();
+                        await FireOnStartingAsync();
                     }
 
                     if (!_connectionAborted && !VerifyResponseContentLength(out var lengthException))
@@ -689,7 +694,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
                 if (_onCompleted?.Count > 0)
                 {
-                    await FireOnCompleted();
+                    await FireOnCompletedAsync();
                 }
 
                 application.DisposeContext(context, _applicationException);
@@ -730,18 +735,24 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _onCompleted.Push(new KeyValuePair<Func<object, Task>, object>(callback, state));
         }
 
-        protected Task FireOnStarting()
+        private Task FireOnStartingAsync()
         {
             var onStarting = _onStarting;
-
             if (onStarting == null || onStarting.Count == 0)
             {
                 return Task.CompletedTask;
             }
-            else
-            {
-                return FireOnStartingMayAwait(onStarting);
-            }
+
+            ExecutionContext.Run(ExecutionContext.Capture(), OnStartingCallback, this);
+            var startCallback = _eventCallbackTask;
+            _eventCallbackTask = null;
+            return startCallback;
+        }
+
+        private static void FireOnStarting(object state)
+        {
+            HttpProtocol protocol = Unsafe.As<HttpProtocol>(state);
+            protocol._eventCallbackTask = protocol.FireOnStartingMayAwait(protocol._onStarting);
         }
 
         private Task FireOnStartingMayAwait(Stack<KeyValuePair<Func<object, Task>, object>> onStarting)
@@ -782,16 +793,24 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        protected Task FireOnCompleted()
+        private Task FireOnCompletedAsync()
         {
             var onCompleted = _onCompleted;
-
             if (onCompleted == null || onCompleted.Count == 0)
             {
                 return Task.CompletedTask;
             }
 
-            return FireOnCompletedMayAwait(onCompleted);
+            ExecutionContext.Run(ExecutionContext.Capture(), OnCompletedCallback, this);
+            var completedCallback = _eventCallbackTask;
+            _eventCallbackTask = null;
+            return completedCallback;
+        }
+
+        private static void FireOnCompleted(object state)
+        {
+            HttpProtocol protocol = Unsafe.As<HttpProtocol>(state);
+            protocol._eventCallbackTask = protocol.FireOnCompletedMayAwait(protocol._onCompleted);
         }
 
         private Task FireOnCompletedMayAwait(Stack<KeyValuePair<Func<object, Task>, object>> onCompleted)
@@ -930,7 +949,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         public Task InitializeResponseAsync(int firstWriteByteCount)
         {
-            var startingTask = FireOnStarting();
+            var startingTask = FireOnStartingAsync();
             if (!startingTask.IsCompletedSuccessfully)
             {
                 return InitializeResponseAwaited(startingTask, firstWriteByteCount);
@@ -1404,7 +1423,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             // Finalize headers
             if (!HasResponseStarted)
             {
-                var onStartingTask = FireOnStarting();
+                var onStartingTask = FireOnStartingAsync();
                 if (!onStartingTask.IsCompletedSuccessfully)
                 {
                     return CompleteAsyncAwaited(onStartingTask);
@@ -1490,7 +1509,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             Debug.Assert(!HasResponseStarted);
 
-            var startingTask = FireOnStarting();
+            var startingTask = FireOnStartingAsync();
             if (!startingTask.IsCompletedSuccessfully)
             {
                 return FirstWriteAsyncAwaited(startingTask, data, cancellationToken);
