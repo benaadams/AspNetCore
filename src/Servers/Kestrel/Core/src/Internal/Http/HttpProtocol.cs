@@ -628,7 +628,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
                     // https://github.com/aspnet/KestrelHttpServer/issues/43
                     if (!HasResponseStarted && _applicationException == null && _onStarting?.Count > 0)
                     {
-                        await FireOnStartingAsync();
+                        await FireOnStarting();
                     }
 
                     if (!_connectionAborted && !VerifyResponseContentLength(out var lengthException))
@@ -694,7 +694,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
                 if (_onCompleted?.Count > 0)
                 {
-                    await FireOnCompletedAsync();
+                    await FireOnCompleted();
                 }
 
                 application.DisposeContext(context, _applicationException);
@@ -735,7 +735,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _onCompleted.Push(new KeyValuePair<Func<object, Task>, object>(callback, state));
         }
 
-        private Task FireOnStartingAsync()
+        private Task FireOnStarting()
         {
             var onStarting = _onStarting;
             if (onStarting == null || onStarting.Count == 0)
@@ -793,7 +793,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             }
         }
 
-        private Task FireOnCompletedAsync()
+        private Task FireOnCompleted()
         {
             var onCompleted = _onCompleted;
             if (onCompleted == null || onCompleted.Count == 0)
@@ -949,7 +949,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         public Task InitializeResponseAsync(int firstWriteByteCount)
         {
-            var startingTask = FireOnStartingAsync();
+            var startingTask = FireOnStarting();
             if (!startingTask.IsCompletedSuccessfully)
             {
                 return InitializeResponseAwaited(startingTask, firstWriteByteCount);
@@ -1423,7 +1423,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             // Finalize headers
             if (!HasResponseStarted)
             {
-                var onStartingTask = FireOnStartingAsync();
+                var onStartingTask = FireOnStarting();
                 if (!onStartingTask.IsCompletedSuccessfully)
                 {
                     return CompleteAsyncAwaited(onStartingTask);
@@ -1509,7 +1509,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         {
             Debug.Assert(!HasResponseStarted);
 
-            var startingTask = FireOnStartingAsync();
+            var startingTask = FireOnStarting();
             if (!startingTask.IsCompletedSuccessfully)
             {
                 return FirstWriteAsyncAwaited(startingTask, data, cancellationToken);
