@@ -67,7 +67,6 @@ namespace CodeGenerator
                 "IHttpRequestTrailersFeature",
                 "IHttpConnectionFeature",
                 "IHttpMaxRequestBodySizeFeature",
-                "IHttpMinRequestBodyDataRateFeature",
                 "IHttpBodyControlFeature",
                 "IRouteValuesFeature",
                 "IEndpointFeature"

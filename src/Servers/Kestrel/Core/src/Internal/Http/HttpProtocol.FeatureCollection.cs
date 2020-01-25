@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Features;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure;
 using Microsoft.Net.Http.Headers;
 
@@ -251,17 +252,18 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         Stream IHttpResponseBodyFeature.Stream => ResponseBody;
 
-        protected void ResetHttp1Features()
+        protected void ResetHttp1Features(Http1Connection value)
         {
-            _currentIHttpMinRequestBodyDataRateFeature = this;
-            _currentIHttpMinResponseDataRateFeature = this;
+            _currentIHttpMinRequestBodyDataRateFeature = value;
+            _currentIHttpMinResponseDataRateFeature = value;
         }
 
-        protected void ResetHttp2Features()
+        protected void ResetHttp2Features(Http2Stream value)
         {
-            _currentIHttp2StreamIdFeature = this;
-            _currentIHttpResponseTrailersFeature = this;
-            _currentIHttpResetFeature = this;
+            _currentIHttpMinRequestBodyDataRateFeature = value;
+            _currentIHttp2StreamIdFeature = value;
+            _currentIHttpResponseTrailersFeature = value;
+            _currentIHttpResetFeature = value;
         }
 
         void IHttpResponseFeature.OnStarting(Func<object, Task> callback, object state)

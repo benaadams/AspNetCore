@@ -18,11 +18,11 @@ namespace Microsoft.AspNetCore.Connections
         private static readonly Type IMemoryPoolFeatureType = typeof(IMemoryPoolFeature);
         private static readonly Type IConnectionLifetimeFeatureType = typeof(IConnectionLifetimeFeature);
 
-        private object _currentIConnectionIdFeature;
-        private object _currentIConnectionTransportFeature;
-        private object _currentIConnectionItemsFeature;
-        private object _currentIMemoryPoolFeature;
-        private object _currentIConnectionLifetimeFeature;
+        private IConnectionIdFeature _currentIConnectionIdFeature;
+        private IConnectionTransportFeature _currentIConnectionTransportFeature;
+        private IConnectionItemsFeature _currentIConnectionItemsFeature;
+        private IMemoryPoolFeature _currentIMemoryPoolFeature;
+        private IConnectionLifetimeFeature _currentIConnectionLifetimeFeature;
 
         private int _featureRevision;
 
@@ -124,23 +124,23 @@ namespace Microsoft.AspNetCore.Connections
 
                 if (key == IConnectionIdFeatureType)
                 {
-                    _currentIConnectionIdFeature = value;
+                    _currentIConnectionIdFeature = (IConnectionIdFeature)value;
                 }
                 else if (key == IConnectionTransportFeatureType)
                 {
-                    _currentIConnectionTransportFeature = value;
+                    _currentIConnectionTransportFeature = (IConnectionTransportFeature)value;
                 }
                 else if (key == IConnectionItemsFeatureType)
                 {
-                    _currentIConnectionItemsFeature = value;
+                    _currentIConnectionItemsFeature = (IConnectionItemsFeature)value;
                 }
                 else if (key == IMemoryPoolFeatureType)
                 {
-                    _currentIMemoryPoolFeature = value;
+                    _currentIMemoryPoolFeature = (IMemoryPoolFeature)value;
                 }
                 else if (key == IConnectionLifetimeFeatureType)
                 {
-                    _currentIConnectionLifetimeFeature = value;
+                    _currentIConnectionLifetimeFeature = (IConnectionLifetimeFeature)value;
                 }
                 else
                 {
@@ -185,23 +185,23 @@ namespace Microsoft.AspNetCore.Connections
             _featureRevision++;
             if (typeof(TFeature) == typeof(IConnectionIdFeature))
             {
-                _currentIConnectionIdFeature = feature;
+                _currentIConnectionIdFeature = (IConnectionIdFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IConnectionTransportFeature))
             {
-                _currentIConnectionTransportFeature = feature;
+                _currentIConnectionTransportFeature = (IConnectionTransportFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IConnectionItemsFeature))
             {
-                _currentIConnectionItemsFeature = feature;
+                _currentIConnectionItemsFeature = (IConnectionItemsFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IMemoryPoolFeature))
             {
-                _currentIMemoryPoolFeature = feature;
+                _currentIMemoryPoolFeature = (IMemoryPoolFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IConnectionLifetimeFeature))
             {
-                _currentIConnectionLifetimeFeature = feature;
+                _currentIConnectionLifetimeFeature = (IConnectionLifetimeFeature)feature;
             }
             else
             {

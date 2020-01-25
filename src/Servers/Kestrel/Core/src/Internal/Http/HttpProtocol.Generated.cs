@@ -41,33 +41,33 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
         private static readonly Type IHttpBodyControlFeatureType = typeof(IHttpBodyControlFeature);
         private static readonly Type IHttpResetFeatureType = typeof(IHttpResetFeature);
 
-        private object _currentIHttpRequestFeature;
-        private object _currentIHttpResponseFeature;
-        private object _currentIHttpResponseBodyFeature;
-        private object _currentIRequestBodyPipeFeature;
-        private object _currentIHttpRequestIdentifierFeature;
-        private object _currentIServiceProvidersFeature;
-        private object _currentIHttpRequestLifetimeFeature;
-        private object _currentIHttpConnectionFeature;
-        private object _currentIRouteValuesFeature;
-        private object _currentIEndpointFeature;
-        private object _currentIHttpAuthenticationFeature;
-        private object _currentIHttpRequestTrailersFeature;
-        private object _currentIQueryFeature;
-        private object _currentIFormFeature;
-        private object _currentIHttpUpgradeFeature;
-        private object _currentIHttp2StreamIdFeature;
-        private object _currentIHttpResponseTrailersFeature;
-        private object _currentIResponseCookiesFeature;
-        private object _currentIItemsFeature;
-        private object _currentITlsConnectionFeature;
-        private object _currentIHttpWebSocketFeature;
-        private object _currentISessionFeature;
-        private object _currentIHttpMaxRequestBodySizeFeature;
-        private object _currentIHttpMinRequestBodyDataRateFeature;
-        private object _currentIHttpMinResponseDataRateFeature;
-        private object _currentIHttpBodyControlFeature;
-        private object _currentIHttpResetFeature;
+        private IHttpRequestFeature _currentIHttpRequestFeature;
+        private IHttpResponseFeature _currentIHttpResponseFeature;
+        private IHttpResponseBodyFeature _currentIHttpResponseBodyFeature;
+        private IRequestBodyPipeFeature _currentIRequestBodyPipeFeature;
+        private IHttpRequestIdentifierFeature _currentIHttpRequestIdentifierFeature;
+        private IServiceProvidersFeature _currentIServiceProvidersFeature;
+        private IHttpRequestLifetimeFeature _currentIHttpRequestLifetimeFeature;
+        private IHttpConnectionFeature _currentIHttpConnectionFeature;
+        private IRouteValuesFeature _currentIRouteValuesFeature;
+        private IEndpointFeature _currentIEndpointFeature;
+        private IHttpAuthenticationFeature _currentIHttpAuthenticationFeature;
+        private IHttpRequestTrailersFeature _currentIHttpRequestTrailersFeature;
+        private IQueryFeature _currentIQueryFeature;
+        private IFormFeature _currentIFormFeature;
+        private IHttpUpgradeFeature _currentIHttpUpgradeFeature;
+        private IHttp2StreamIdFeature _currentIHttp2StreamIdFeature;
+        private IHttpResponseTrailersFeature _currentIHttpResponseTrailersFeature;
+        private IResponseCookiesFeature _currentIResponseCookiesFeature;
+        private IItemsFeature _currentIItemsFeature;
+        private ITlsConnectionFeature _currentITlsConnectionFeature;
+        private IHttpWebSocketFeature _currentIHttpWebSocketFeature;
+        private ISessionFeature _currentISessionFeature;
+        private IHttpMaxRequestBodySizeFeature _currentIHttpMaxRequestBodySizeFeature;
+        private IHttpMinRequestBodyDataRateFeature _currentIHttpMinRequestBodyDataRateFeature;
+        private IHttpMinResponseDataRateFeature _currentIHttpMinResponseDataRateFeature;
+        private IHttpBodyControlFeature _currentIHttpBodyControlFeature;
+        private IHttpResetFeature _currentIHttpResetFeature;
 
         private int _featureRevision;
 
@@ -85,7 +85,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _currentIHttpRequestTrailersFeature = this;
             _currentIHttpConnectionFeature = this;
             _currentIHttpMaxRequestBodySizeFeature = this;
-            _currentIHttpMinRequestBodyDataRateFeature = this;
             _currentIHttpBodyControlFeature = this;
             _currentIRouteValuesFeature = this;
             _currentIEndpointFeature = this;
@@ -101,6 +100,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _currentITlsConnectionFeature = null;
             _currentIHttpWebSocketFeature = null;
             _currentISessionFeature = null;
+            _currentIHttpMinRequestBodyDataRateFeature = null;
             _currentIHttpMinResponseDataRateFeature = null;
             _currentIHttpResetFeature = null;
         }
@@ -279,111 +279,111 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
                 if (key == IHttpRequestFeatureType)
                 {
-                    _currentIHttpRequestFeature = value;
+                    _currentIHttpRequestFeature = (IHttpRequestFeature)value;
                 }
                 else if (key == IHttpResponseFeatureType)
                 {
-                    _currentIHttpResponseFeature = value;
+                    _currentIHttpResponseFeature = (IHttpResponseFeature)value;
                 }
                 else if (key == IHttpResponseBodyFeatureType)
                 {
-                    _currentIHttpResponseBodyFeature = value;
+                    _currentIHttpResponseBodyFeature = (IHttpResponseBodyFeature)value;
                 }
                 else if (key == IRequestBodyPipeFeatureType)
                 {
-                    _currentIRequestBodyPipeFeature = value;
+                    _currentIRequestBodyPipeFeature = (IRequestBodyPipeFeature)value;
                 }
                 else if (key == IHttpRequestIdentifierFeatureType)
                 {
-                    _currentIHttpRequestIdentifierFeature = value;
+                    _currentIHttpRequestIdentifierFeature = (IHttpRequestIdentifierFeature)value;
                 }
                 else if (key == IServiceProvidersFeatureType)
                 {
-                    _currentIServiceProvidersFeature = value;
+                    _currentIServiceProvidersFeature = (IServiceProvidersFeature)value;
                 }
                 else if (key == IHttpRequestLifetimeFeatureType)
                 {
-                    _currentIHttpRequestLifetimeFeature = value;
+                    _currentIHttpRequestLifetimeFeature = (IHttpRequestLifetimeFeature)value;
                 }
                 else if (key == IHttpConnectionFeatureType)
                 {
-                    _currentIHttpConnectionFeature = value;
+                    _currentIHttpConnectionFeature = (IHttpConnectionFeature)value;
                 }
                 else if (key == IRouteValuesFeatureType)
                 {
-                    _currentIRouteValuesFeature = value;
+                    _currentIRouteValuesFeature = (IRouteValuesFeature)value;
                 }
                 else if (key == IEndpointFeatureType)
                 {
-                    _currentIEndpointFeature = value;
+                    _currentIEndpointFeature = (IEndpointFeature)value;
                 }
                 else if (key == IHttpAuthenticationFeatureType)
                 {
-                    _currentIHttpAuthenticationFeature = value;
+                    _currentIHttpAuthenticationFeature = (IHttpAuthenticationFeature)value;
                 }
                 else if (key == IHttpRequestTrailersFeatureType)
                 {
-                    _currentIHttpRequestTrailersFeature = value;
+                    _currentIHttpRequestTrailersFeature = (IHttpRequestTrailersFeature)value;
                 }
                 else if (key == IQueryFeatureType)
                 {
-                    _currentIQueryFeature = value;
+                    _currentIQueryFeature = (IQueryFeature)value;
                 }
                 else if (key == IFormFeatureType)
                 {
-                    _currentIFormFeature = value;
+                    _currentIFormFeature = (IFormFeature)value;
                 }
                 else if (key == IHttpUpgradeFeatureType)
                 {
-                    _currentIHttpUpgradeFeature = value;
+                    _currentIHttpUpgradeFeature = (IHttpUpgradeFeature)value;
                 }
                 else if (key == IHttp2StreamIdFeatureType)
                 {
-                    _currentIHttp2StreamIdFeature = value;
+                    _currentIHttp2StreamIdFeature = (IHttp2StreamIdFeature)value;
                 }
                 else if (key == IHttpResponseTrailersFeatureType)
                 {
-                    _currentIHttpResponseTrailersFeature = value;
+                    _currentIHttpResponseTrailersFeature = (IHttpResponseTrailersFeature)value;
                 }
                 else if (key == IResponseCookiesFeatureType)
                 {
-                    _currentIResponseCookiesFeature = value;
+                    _currentIResponseCookiesFeature = (IResponseCookiesFeature)value;
                 }
                 else if (key == IItemsFeatureType)
                 {
-                    _currentIItemsFeature = value;
+                    _currentIItemsFeature = (IItemsFeature)value;
                 }
                 else if (key == ITlsConnectionFeatureType)
                 {
-                    _currentITlsConnectionFeature = value;
+                    _currentITlsConnectionFeature = (ITlsConnectionFeature)value;
                 }
                 else if (key == IHttpWebSocketFeatureType)
                 {
-                    _currentIHttpWebSocketFeature = value;
+                    _currentIHttpWebSocketFeature = (IHttpWebSocketFeature)value;
                 }
                 else if (key == ISessionFeatureType)
                 {
-                    _currentISessionFeature = value;
+                    _currentISessionFeature = (ISessionFeature)value;
                 }
                 else if (key == IHttpMaxRequestBodySizeFeatureType)
                 {
-                    _currentIHttpMaxRequestBodySizeFeature = value;
+                    _currentIHttpMaxRequestBodySizeFeature = (IHttpMaxRequestBodySizeFeature)value;
                 }
                 else if (key == IHttpMinRequestBodyDataRateFeatureType)
                 {
-                    _currentIHttpMinRequestBodyDataRateFeature = value;
+                    _currentIHttpMinRequestBodyDataRateFeature = (IHttpMinRequestBodyDataRateFeature)value;
                 }
                 else if (key == IHttpMinResponseDataRateFeatureType)
                 {
-                    _currentIHttpMinResponseDataRateFeature = value;
+                    _currentIHttpMinResponseDataRateFeature = (IHttpMinResponseDataRateFeature)value;
                 }
                 else if (key == IHttpBodyControlFeatureType)
                 {
-                    _currentIHttpBodyControlFeature = value;
+                    _currentIHttpBodyControlFeature = (IHttpBodyControlFeature)value;
                 }
                 else if (key == IHttpResetFeatureType)
                 {
-                    _currentIHttpResetFeature = value;
+                    _currentIHttpResetFeature = (IHttpResetFeature)value;
                 }
                 else
                 {
@@ -521,111 +521,111 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
             _featureRevision++;
             if (typeof(TFeature) == typeof(IHttpRequestFeature))
             {
-                _currentIHttpRequestFeature = feature;
+                _currentIHttpRequestFeature = (IHttpRequestFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpResponseFeature))
             {
-                _currentIHttpResponseFeature = feature;
+                _currentIHttpResponseFeature = (IHttpResponseFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpResponseBodyFeature))
             {
-                _currentIHttpResponseBodyFeature = feature;
+                _currentIHttpResponseBodyFeature = (IHttpResponseBodyFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IRequestBodyPipeFeature))
             {
-                _currentIRequestBodyPipeFeature = feature;
+                _currentIRequestBodyPipeFeature = (IRequestBodyPipeFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpRequestIdentifierFeature))
             {
-                _currentIHttpRequestIdentifierFeature = feature;
+                _currentIHttpRequestIdentifierFeature = (IHttpRequestIdentifierFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IServiceProvidersFeature))
             {
-                _currentIServiceProvidersFeature = feature;
+                _currentIServiceProvidersFeature = (IServiceProvidersFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpRequestLifetimeFeature))
             {
-                _currentIHttpRequestLifetimeFeature = feature;
+                _currentIHttpRequestLifetimeFeature = (IHttpRequestLifetimeFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpConnectionFeature))
             {
-                _currentIHttpConnectionFeature = feature;
+                _currentIHttpConnectionFeature = (IHttpConnectionFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IRouteValuesFeature))
             {
-                _currentIRouteValuesFeature = feature;
+                _currentIRouteValuesFeature = (IRouteValuesFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IEndpointFeature))
             {
-                _currentIEndpointFeature = feature;
+                _currentIEndpointFeature = (IEndpointFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpAuthenticationFeature))
             {
-                _currentIHttpAuthenticationFeature = feature;
+                _currentIHttpAuthenticationFeature = (IHttpAuthenticationFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpRequestTrailersFeature))
             {
-                _currentIHttpRequestTrailersFeature = feature;
+                _currentIHttpRequestTrailersFeature = (IHttpRequestTrailersFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IQueryFeature))
             {
-                _currentIQueryFeature = feature;
+                _currentIQueryFeature = (IQueryFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IFormFeature))
             {
-                _currentIFormFeature = feature;
+                _currentIFormFeature = (IFormFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpUpgradeFeature))
             {
-                _currentIHttpUpgradeFeature = feature;
+                _currentIHttpUpgradeFeature = (IHttpUpgradeFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttp2StreamIdFeature))
             {
-                _currentIHttp2StreamIdFeature = feature;
+                _currentIHttp2StreamIdFeature = (IHttp2StreamIdFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpResponseTrailersFeature))
             {
-                _currentIHttpResponseTrailersFeature = feature;
+                _currentIHttpResponseTrailersFeature = (IHttpResponseTrailersFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IResponseCookiesFeature))
             {
-                _currentIResponseCookiesFeature = feature;
+                _currentIResponseCookiesFeature = (IResponseCookiesFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IItemsFeature))
             {
-                _currentIItemsFeature = feature;
+                _currentIItemsFeature = (IItemsFeature)feature;
             }
             else if (typeof(TFeature) == typeof(ITlsConnectionFeature))
             {
-                _currentITlsConnectionFeature = feature;
+                _currentITlsConnectionFeature = (ITlsConnectionFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpWebSocketFeature))
             {
-                _currentIHttpWebSocketFeature = feature;
+                _currentIHttpWebSocketFeature = (IHttpWebSocketFeature)feature;
             }
             else if (typeof(TFeature) == typeof(ISessionFeature))
             {
-                _currentISessionFeature = feature;
+                _currentISessionFeature = (ISessionFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpMaxRequestBodySizeFeature))
             {
-                _currentIHttpMaxRequestBodySizeFeature = feature;
+                _currentIHttpMaxRequestBodySizeFeature = (IHttpMaxRequestBodySizeFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpMinRequestBodyDataRateFeature))
             {
-                _currentIHttpMinRequestBodyDataRateFeature = feature;
+                _currentIHttpMinRequestBodyDataRateFeature = (IHttpMinRequestBodyDataRateFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpMinResponseDataRateFeature))
             {
-                _currentIHttpMinResponseDataRateFeature = feature;
+                _currentIHttpMinResponseDataRateFeature = (IHttpMinResponseDataRateFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpBodyControlFeature))
             {
-                _currentIHttpBodyControlFeature = feature;
+                _currentIHttpBodyControlFeature = (IHttpBodyControlFeature)feature;
             }
             else if (typeof(TFeature) == typeof(IHttpResetFeature))
             {
-                _currentIHttpResetFeature = feature;
+                _currentIHttpResetFeature = (IHttpResetFeature)feature;
             }
             else
             {

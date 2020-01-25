@@ -82,7 +82,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http2
 
         protected override void OnReset()
         {
-            ResetHttp2Features();
+            ResetHttp2Features(this);
         }
 
         protected override void OnRequestProcessingEnded()

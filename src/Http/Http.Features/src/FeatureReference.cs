@@ -22,14 +22,14 @@ namespace Microsoft.AspNetCore.Http.Features
             {
                 return _feature;
             }
-            _feature = (T)features[typeof(T)];
+            _feature = features.Get<T>();
             _revision = features.Revision;
             return _feature;
         }
 
         public T Update(IFeatureCollection features, T feature)
         {
-            features[typeof(T)] = feature;
+            features.Set<T>(feature);
             _feature = feature;
             _revision = features.Revision;
             return feature;

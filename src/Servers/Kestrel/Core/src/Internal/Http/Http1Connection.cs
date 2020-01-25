@@ -592,7 +592,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http
 
         protected override void OnReset()
         {
-            ResetHttp1Features();
+            ResetHttp1Features(this);
 
             _requestTimedOut = false;
             _requestTargetForm = HttpRequestTarget.Unknown;
